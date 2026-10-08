@@ -10,8 +10,8 @@
 
 (package
  (name dialtone)
- (synopsis "Decode phone keypad tones back into the digits")
- (description "Dialtone decodes touch-tone phone sounds back into the digits they represent.")
+ (synopsis "Decode Dual-Tone Multi-Frequency (DTMF) phone keypad tones into keys")
+ (description "Dialtone decodes Dual-Tone Multi-Frequency (DTMF) telephone keypad tones back into the keys they represent.")
  (license GPL-3.0-only)
  (tags ("dtmf" "signal processing" "goertzel algorithm" "telephony"))
  (depends

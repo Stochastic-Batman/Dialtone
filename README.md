@@ -25,6 +25,39 @@ So pressing **5** produces 770 Hz and 1336 Hz together. The receiver's job is th
 
 The idea is simple enough to follow without any signal processing background: the program listens for the two loudest tones in each short slice of sound, and maps that pair to a key.
 
+## Usage
+
+Build the project:
+
+```
+dune build
+```
+
+Run the tests:
+
+```
+dune test
+```
+
+Encode keys into audio and decode them back:
+
+```
+dune exec ./bin/main.exe -- 5551234
+```
+
+The program accepts two optional settings:
+
+- `--sample-rate` sets the sample rate in Hz (default: 8000)
+- `--block-size` sets the number of samples per key (default: 205)
+
+For example:
+
+```
+dune exec ./bin/main.exe -- --sample-rate 16000 --block-size 410 '*#ABCD'
+```
+
+Keep the keys in quotes when they contain `*` or `#`, because the shell treats those characters specially.
+
 ## Testing
 
 - **Round trip:** generated tones for a sequence of keys must decode back to the same sequence.
@@ -33,3 +66,7 @@ The idea is simple enough to follow without any signal processing background: th
 ## Build system
 
 Dialtone uses [Dune](https://dune.readthedocs.io/), the standard build system for OCaml projects.
+
+## License
+
+Dialtone is licensed under the GNU General Public License v3.0 only. See the [LICENSE](LICENSE) file for details.

@@ -10,6 +10,10 @@ let power freq block =
     Dialtone.Goertzel.power
         (Dialtone.Goertzel.create ~sample_rate ~block_size ~freq) block
 
+let roundtrip s =
+    let d = Dialtone.Decoder.create ~sample_rate ~block_size in
+    Dialtone.Decoder.decode d (Dialtone.Encoder.encode ~sample_rate ~block_size s)
+
 let () =
     let signal = tone 770. 0. in
     let p770 = power 770. signal in
@@ -44,3 +48,20 @@ let () =
     in
     assert (keys = "123A456B789C*0#D");
     print_endline "dtmf: full keypad matches"
+
+let () =
+    let d = Dialtone.Decoder.create ~sample_rate ~block_size in
+    assert (Dialtone.Decoder.decode_block d (Array.make block_size 0.) = None);
+    print_endline "decoder: silence decodes to nothing"
+
+let () =
+    assert (roundtrip "0123456789" = "0123456789");
+    print_endline "round trip: all digits decode back"
+
+let () =
+    assert (roundtrip "*#ABCD" = "*#ABCD");
+    print_endline "round trip: special keys decode back"
+
+let () =
+    assert (roundtrip "55" = "55");
+    print_endline "round trip: repeated key is kept"
